@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	video()
+	div#imageHolder
+	canvas(style="display:none;")
+	script(
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous")
+	script(src="/javascripts/polyfill.js")
+	script(src="/javascripts/webcam.js")
