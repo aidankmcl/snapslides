@@ -5,6 +5,7 @@ module.exports = function(io) {
 	io.on('connection', function(socket){
 		num += 1; total += 1;
 		console.log('a user connected, ' + num + ' here! Total: ' + total);
+		socket.broadcast.emit('people', {num: num});
 
 		socket.on('image', function(msg) {
 			io.emit('new image', msg);
@@ -12,6 +13,8 @@ module.exports = function(io) {
 
 		socket.on('disconnect', function(){
 	    console.log('user disconnected, ' + num + ' left');
+	    socket.broadcast.emit('people', {num: num});
+	    num -= 1;
 	  });
 	});
 };
