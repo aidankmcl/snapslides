@@ -23,9 +23,23 @@ function snapshot() {
 		ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 		// "image/webp" works in Chrome.
 		// Other browsers will fall back to image/png.
-		$('#imageHolder').css('background-image', 'url(' + canvas.toDataURL('image/webp') + ')');
+		socket.emit('image', { data: canvas.toDataURL('image/webp') })
 	}
 }
+
+var imageData = [];
+socket.on('new image', function(msg) {
+	imageData.push(msg.data);
+});
+
+function incrementSlideshow() {
+	var base64Data = imageData.shift();
+	setTimeout(function() {
+		if (base64Data) $('#imageHolder').css('background-image', 'url(' + base64Data + ')');
+		incrementSlideshow();
+	}, 3000);
+};
+incrementSlideshow();
 
 video.addEventListener('click', snapshot, false);
 
@@ -33,7 +47,7 @@ navigator.mediaDevices.getUserMedia({video: true})
 .then(function(mediaStream) {
 	video.srcObject = mediaStream;
 	localMediaStream = mediaStream;
-	setInterval(snapshot, 1000);
+	setInterval(snapshot, 3000);
 	video.onloadedmetadata = function(e) {
 		video.play();
 	};
