@@ -27,7 +27,7 @@ function snapshot() {
 			socket.emit('image', { data: canvas.toDataURL('image/webp') })
 			snapshot();
 		}
-	}, connected * 2000);
+	}, connected * 3000);
 }
 
 var imageData = [];
