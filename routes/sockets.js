@@ -12,9 +12,9 @@ module.exports = function(io) {
 		});
 
 		socket.on('disconnect', function(){
+	    num -= 1;
 	    console.log('user disconnected, ' + num + ' left');
 	    socket.broadcast.emit('people', {num: num});
-	    num -= 1;
 	  });
 	});
 };
